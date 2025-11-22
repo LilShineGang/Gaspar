@@ -1,0 +1,8 @@
+MENU
+
+1. Take full order
+2. Get(view) full order.
+3. Modify order.
+
+A. About
+X. Exit
