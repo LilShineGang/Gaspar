@@ -14,6 +14,9 @@ package com.bdd.guiswingorderwinbdd;
 import javax.swing.JOptionPane;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
 
 import java.util.regex.Pattern; // para las validaciones
 
@@ -26,6 +29,8 @@ public class GuiSwingOrderWinBDD extends javax.swing.JFrame {
      */
     public GuiSwingOrderWinBDD() {
         initComponents();
+        
+        configurarVentana();
     }
 
     /**
@@ -714,6 +719,88 @@ public class GuiSwingOrderWinBDD extends javax.swing.JFrame {
 
         // Si ha pasado todas las validaciones
         return true;
+    }
+    
+    /**
+     * Método personalizado para configurar Icono y Menú (Punto 5 del PDF)
+     */
+    private void configurarVentana() {
+        // --- 1. ESTABLECER EL ICONO DE LA VENTANA ---
+        try {
+            // La ruta debe coincidir con tu carpeta en resources: /img_BDD/icon-BDD.png
+            ImageIcon icon = new ImageIcon(getClass().getResource("/img_BDD/icon-BDD.png"));
+            setIconImage(icon.getImage());
+        } catch (Exception e) {
+            System.err.println("No se pudo cargar el icono. Revisa la carpeta resources/img_BDD");
+        }
+
+        // --- 2. CREAR BARRA DE MENÚ ---
+        JMenuBar menuBar = new JMenuBar();
+
+        // === MENÚ APP ===
+        JMenu menuApp = new JMenu("App");
+        menuApp.setMnemonic(KeyEvent.VK_A); // Alt+A
+
+        // Opción: Ver Pedido Completo (Ctrl+P)
+        JMenuItem itemPedido = new JMenuItem("Ver Pedido Completo");
+        itemPedido.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_P, InputEvent.CTRL_DOWN_MASK));
+        // ACCIÓN: Llamamos a tu botón existente btnVerPedido
+        itemPedido.addActionListener(evt -> btnVerPedidoActionPerformed(null));
+
+        // Opción: Calculadora (Ctrl+C)
+        JMenuItem itemCalc = new JMenuItem("Calculadora");
+        itemCalc.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C, InputEvent.CTRL_DOWN_MASK));
+        // ACCIÓN: Llamamos a tu botón existente btnCalculadora
+        itemCalc.addActionListener(evt -> btnCalculadoraActionPerformed(null));
+
+        // Opción: Salir (Ctrl+S)
+        JMenuItem itemSalir = new JMenuItem("Salir");
+        itemSalir.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.CTRL_DOWN_MASK));
+        // ACCIÓN: Llamamos a tu botón existente btnSalir
+        itemSalir.addActionListener(evt -> btnSalirActionPerformed(null));
+
+        // Añadir items al menú App
+        menuApp.add(itemPedido);
+        menuApp.add(itemCalc);
+        menuApp.addSeparator();
+        menuApp.add(itemSalir);
+
+        // === MENÚ AYUDA ===
+        JMenu menuAyuda = new JMenu("Ayuda");
+        menuAyuda.setMnemonic(KeyEvent.VK_H); // Alt+H
+
+        // Opción: Información (Ctrl+I)
+        JMenuItem itemInfo = new JMenuItem("Información");
+        itemInfo.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_I, InputEvent.CTRL_DOWN_MASK));
+        itemInfo.addActionListener(evt -> btnInfoActionPerformed(null));
+
+        // Opción: Compañía (Ctrl+L) - Muestra el Logo de nuevo
+        JMenuItem itemCompania = new JMenuItem("Compañía");
+        itemCompania.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_L, InputEvent.CTRL_DOWN_MASK));
+        itemCompania.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Mostramos el JDialog del logo (Modal)
+                dlgLogoBDD dialog = new dlgLogoBDD(GuiSwingOrderWinBDD.this, true);
+                dialog.setLocationRelativeTo(GuiSwingOrderWinBDD.this);
+                dialog.setVisible(true);
+            }
+        });
+
+        // Opción: Acerca de (Ctrl+B) - Usamos B de Blago ;)
+        JMenuItem itemAcerca = new JMenuItem("Acerca de");
+        itemAcerca.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_B, InputEvent.CTRL_DOWN_MASK));
+        itemAcerca.addActionListener(evt -> btnAcercaDeActionPerformed(null));
+
+        // Añadir items al menú Ayuda
+        menuAyuda.add(itemInfo);
+        menuAyuda.add(itemCompania);
+        menuAyuda.add(itemAcerca);
+
+        // Añadir menús a la barra y asignar a la ventana
+        menuBar.add(menuApp);
+        menuBar.add(menuAyuda);
+        setJMenuBar(menuBar);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

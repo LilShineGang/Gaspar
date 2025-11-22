@@ -18,6 +18,23 @@ public class dlgLogoBDD extends javax.swing.JDialog {
     public dlgLogoBDD(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        
+        // --- CÓDIGO NUEVO PARA CARGAR LA IMAGEN DEL LOGO ---
+        try {
+            // Cargamos la imagen desde la carpeta de recursos
+            javax.swing.ImageIcon logo = new javax.swing.ImageIcon(getClass().getResource("/img_BDD/logo-BDD.png"));
+            
+            // La ponemos dentro de la etiqueta (Label)
+            jLabel1.setIcon(logo);
+            jLabel1.setText(""); // Borramos el texto "jLabel1" que sale por defecto
+            
+        } catch (Exception e) {
+            System.err.println("No se pudo cargar el logo. Verifica la carpeta resources/img_BDD");
+        }
+        // ---------------------------------------------------
+        
+        // Centramos la ventana en la pantalla
+        setLocationRelativeTo(null);
     }
 
     /**
